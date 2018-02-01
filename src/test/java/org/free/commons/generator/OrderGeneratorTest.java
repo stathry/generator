@@ -16,7 +16,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Predicate;
 
-import org.free.commons.generator.util.BoundAtomicInteger;
+import org.bryadong.generator.OrderGenerator;
+import org.bryadong.generator.util.BoundAtomicInteger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

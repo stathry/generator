@@ -1,6 +1,7 @@
 package org.free.commons.generator;
 
-import org.free.commons.generator.model.FieldInfo;
+import org.bryadong.generator.JSONGenerator;
+import org.bryadong.generator.model.FieldInfo;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;

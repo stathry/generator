@@ -14,10 +14,11 @@ import java.util.concurrent.Executors;
 
 import javax.sql.DataSource;
 
-import org.free.commons.generator.model.BeanInfo;
-import org.free.commons.generator.model.FieldInfo;
-import org.free.commons.generator.util.DBUtils;
-import org.free.commons.generator.util.ExcelUtils;
+import org.bryadong.generator.JavaGenerator;
+import org.bryadong.generator.model.BeanInfo;
+import org.bryadong.generator.model.FieldInfo;
+import org.bryadong.generator.util.DBUtils;
+import org.bryadong.generator.util.ExcelUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.free.commons</groupId>
-	<artifactId>commons-generator</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>org.bryadong</groupId>
+	<artifactId>generator</artifactId>
+	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>commons-generator</name>
+	<name>generator</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
