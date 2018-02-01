@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- For assistance related to logback-translator or configuration -->
+<!-- files in general, please contact the logback user mailing list -->
+<!-- at http://www.qos.ch/mailman/listinfo/logback-user -->
+<!-- -->
+<!-- For professional support please see -->
+<!-- http://www.qos.ch/shop/products/professionalSupport -->
+<!-- -->
+<configuration>
+	<!-- Errors were reported during translation. -->
+	<!-- No class found for appender RollFile -->
+	<!-- Could not find transformer for null -->
+
+	<!-- <contextListener class="com.pingan.finkeep.commons.listener.LogBackListener" /> -->
+	<property name="LOG_PATTERN" value="%date [%thread] [%-5level] [%logger{20}:%line] - %msg%n"/>
+	<property name="CHARSET" value="UTF-8"/>
+	<property name="APPEND" value="true"/>
+
+	<appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+			<charset>${CHARSET}</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+	</appender>
+
+		<!--See http://logback.qos.ch/manual/appenders.html#RollingFileAppender -->
+		<!--and http://logback.qos.ch/manual/appenders.html#TimeBasedRollingPolicy -->
+		<!--for further documentation -->
+	<appender name="DailyRollDEBUG"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Append>${APPEND}</Append>
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+			<charset>${CHARSET}</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/temp/commons-components/log/%d{yyyy-MM-dd}/debug.log
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="DailyRollINFO"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Append>${APPEND}</Append>
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+			<charset>${CHARSET}</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/temp/commons-components/log/%d{yyyy-MM-dd}/info.log
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+
+	<appender name="DailyRollWARN"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Append>${APPEND}</Append>
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+			<charset>${CHARSET}</charset>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>WARN</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/temp/commons-components/log/%d{yyyy-MM-dd}/warn.log
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+
+	<!-- 自定义logger,[level]可指定package为[name]的日志级别,[additivity]指定是否向root存储 -->
+	<!-- 设置 additivity=true&&appender-ref=[null] 等价于 additivity=false&&appender-ref=[all] -->
+	<logger name="org.free.commons.generator" level="DEBUG" additivity="true" />
+	<logger name="org.free" level="INFO" additivity="true" />
+	<logger name="org.springframework" level="INFO" additivity="true" />
+
+	<!-- 默认地仅appender.level高于root.level时日志会被输出.自定义的logger除外 -->
+	<root level="INFO">
+		<appender-ref ref="Console" />
+		<appender-ref ref="DailyRollDEBUG" />
+		<appender-ref ref="DailyRollINFO" />
+		<appender-ref ref="DailyRollWARN" />
+	</root>
+</configuration>
