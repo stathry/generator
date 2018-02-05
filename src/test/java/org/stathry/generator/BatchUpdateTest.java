@@ -1,4 +1,4 @@
-package org.free.commons.generator;
+package org.stathry.generator;
 
 import java.sql.Connection;
 import java.sql.Date;

@@ -1,4 +1,4 @@
-package org.bryadong.generator;
+package org.stathry.generator;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
-import org.bryadong.generator.enums.DataTypeEnums;
+import org.stathry.generator.enums.DataTypeEnums;
 
 /**
  * 生成参数定义

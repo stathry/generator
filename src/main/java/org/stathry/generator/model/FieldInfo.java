@@ -1,4 +1,4 @@
-package org.bryadong.generator.model;
+package org.stathry.generator.model;
 
 /**
  * TODO

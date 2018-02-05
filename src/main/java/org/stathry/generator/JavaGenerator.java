@@ -1,4 +1,4 @@
-package org.bryadong.generator;
+package org.stathry.generator;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -14,15 +14,15 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import org.bryadong.generator.enums.DataTypeEnums;
-import org.bryadong.generator.model.BeanInfo;
-import org.bryadong.generator.model.JavaTemplateConfig;
-import org.bryadong.generator.util.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
+import org.stathry.generator.enums.DataTypeEnums;
+import org.stathry.generator.model.BeanInfo;
+import org.stathry.generator.model.JavaTemplateConfig;
+import org.stathry.generator.util.FileUtils;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;

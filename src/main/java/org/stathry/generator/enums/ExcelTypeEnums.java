@@ -1,7 +1,7 @@
 /**
  * Copyright 2012-2016 free Co., Ltd.
  */
-package org.bryadong.generator.enums;
+package org.stathry.generator.enums;
 
 /**
  * @author dongdaiming@free.com

@@ -1,8 +1,8 @@
-package org.free.commons.generator;
+package org.stathry.generator;
 
-import org.bryadong.generator.JSONGenerator;
-import org.bryadong.generator.model.FieldInfo;
 import org.junit.Test;
+import org.stathry.generator.JSONGenerator;
+import org.stathry.generator.model.FieldInfo;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;

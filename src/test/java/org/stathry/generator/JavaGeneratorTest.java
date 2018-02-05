@@ -1,4 +1,4 @@
-package org.free.commons.generator;
+package org.stathry.generator;
 
 import static org.junit.Assert.*;
 
@@ -14,11 +14,6 @@ import java.util.concurrent.Executors;
 
 import javax.sql.DataSource;
 
-import org.bryadong.generator.JavaGenerator;
-import org.bryadong.generator.model.BeanInfo;
-import org.bryadong.generator.model.FieldInfo;
-import org.bryadong.generator.util.DBUtils;
-import org.bryadong.generator.util.ExcelUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +21,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stathry.generator.JavaGenerator;
+import org.stathry.generator.model.BeanInfo;
+import org.stathry.generator.model.FieldInfo;
+import org.stathry.generator.util.DBUtils;
+import org.stathry.generator.util.ExcelUtils;
 
 import freemarker.template.TemplateException;
 

@@ -1,16 +1,16 @@
-package org.bryadong.generator;
+package org.stathry.generator;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bryadong.generator.util.BoundAtomicInteger;
-import org.bryadong.generator.util.Snowflake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.stathry.generator.util.BoundAtomicInteger;
+import org.stathry.generator.util.Snowflake;
 
 /**
  * TODO

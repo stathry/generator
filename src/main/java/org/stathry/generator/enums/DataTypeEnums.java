@@ -1,4 +1,4 @@
-package org.bryadong.generator.enums;
+package org.stathry.generator.enums;
 
 public enum DataTypeEnums {
 

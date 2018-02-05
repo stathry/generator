@@ -1,4 +1,4 @@
-package org.bryadong.generator;
+package org.stathry.generator;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

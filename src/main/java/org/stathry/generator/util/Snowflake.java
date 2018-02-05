@@ -1,4 +1,4 @@
-package org.bryadong.generator.util;
+package org.stathry.generator.util;
 
 public class Snowflake
 {

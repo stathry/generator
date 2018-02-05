@@ -1,7 +1,7 @@
 /**
  * Copyright 2012-2016 free Co., Ltd.
  */
-package org.bryadong.generator.util;
+package org.stathry.generator.util;
 
 import java.io.File;
 import java.io.IOException;

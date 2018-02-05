@@ -1,4 +1,4 @@
-package org.bryadong.generator.util;
+package org.stathry.generator.util;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -11,12 +11,12 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.bryadong.generator.enums.DBDataTypeEnums;
-import org.bryadong.generator.model.BeanInfo;
-import org.bryadong.generator.model.FieldInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.stathry.generator.enums.DBDataTypeEnums;
+import org.stathry.generator.model.BeanInfo;
+import org.stathry.generator.model.FieldInfo;
 
 /**
  * TODO
