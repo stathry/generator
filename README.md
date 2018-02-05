@@ -1,1 +1,1 @@
-# bryadong-generator
+# stathry-generator
