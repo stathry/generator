@@ -112,7 +112,8 @@ public class DBUtils {
             bean.setFields(fields);
             for(Map<String, Object> c : columns) {
                 field = new FieldInfo();
-                field.setName(columnToField(String.valueOf(c.get("column_name"))));
+                field.setCollumn(String.valueOf(c.get("column_name")));
+                field.setName(columnToField(field.getCollumn()));
                 type = String.valueOf(c.get("column_type"));
                 index = type.indexOf('(');
                 type = index != -1 ? type.substring(0, type.indexOf('(')) : type;

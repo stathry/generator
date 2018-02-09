@@ -37,6 +37,8 @@ public class JavaTemplateConfig {
 
     private String clzz;
     
+    private String table;
+    
     private String desc;
     
     private List<FieldInfo> fields;
@@ -120,5 +122,13 @@ public class JavaTemplateConfig {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+	public String getTable() {
+		return table;
+	}
+
+	public void setTable(String table) {
+		this.table = table;
+	}
 
 }

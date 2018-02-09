@@ -7,51 +7,60 @@ package org.stathry.generator.model;
  */
 public class FieldInfo {
 
-    private String name;
+	private String name;
 
-    private String type;
+	private String collumn;
 
-    private String comment;
+	private String type;
 
-    public FieldInfo() {
-        super();
-    }
+	private String comment;
 
-    public FieldInfo(String name, String type, String comment) {
-        super();
-        this.name = name;
-        this.type = type;
-        this.comment = comment;
-    }
+	public FieldInfo() {
+		super();
+	}
 
-    @Override
-    public String toString() {
-        return "FieldInfo [name=" + name + ", type=" + type + ", comment="
-                + comment + "]";
-    }
+	public FieldInfo(String name, String collumn, String type, String comment) {
+		this.name = name;
+		this.collumn = collumn;
+		this.type = type;
+		this.comment = comment;
+	}
 
-    public String getName() {
-        return name;
-    }
+	@Override
+	public String toString() {
+		return "FieldInfo [name=" + name + ", type=" + type + ", comment=" + comment + "]";
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public String getType() {
-        return type;
-    }
+	public String getCollumn() {
+		return collumn;
+	}
 
-    public void setType(String type) {
-        this.type = type;
-    }
+	public void setCollumn(String collumn) {
+		this.collumn = collumn;
+	}
 
-    public String getComment() {
-        return comment;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
 
 }

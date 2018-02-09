@@ -9,39 +9,49 @@ import java.util.List;
  */
 public class BeanInfo {
 
-    private String clzz;
-    
-    private String desc;
+	private String clzz;
 
-    private List<FieldInfo> fields;
-    
-    @Override
-    public String toString() {
-        return "BeanInfo [clzz=" + clzz + ", desc=" + desc + "]";
-    }
+	private String table;
 
-    public String getClzz() {
-        return clzz;
-    }
+	private String desc;
 
-    public void setClzz(String clzz) {
-        this.clzz = clzz;
-    }
+	private List<FieldInfo> fields;
 
-    public List<FieldInfo> getFields() {
-        return fields;
-    }
+	@Override
+	public String toString() {
+		return "BeanInfo [clzz=" + clzz + ", desc=" + desc + "]";
+	}
 
-    public void setFields(List<FieldInfo> fields) {
-        this.fields = fields;
-    }
+	public String getTable() {
+		return table;
+	}
 
-    public String getDesc() {
-        return desc;
-    }
+	public void setTable(String table) {
+		this.table = table;
+	}
 
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-    
+	public String getClzz() {
+		return clzz;
+	}
+
+	public void setClzz(String clzz) {
+		this.clzz = clzz;
+	}
+
+	public List<FieldInfo> getFields() {
+		return fields;
+	}
+
+	public void setFields(List<FieldInfo> fields) {
+		this.fields = fields;
+	}
+
+	public String getDesc() {
+		return desc;
+	}
+
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+
 }

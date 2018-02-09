@@ -11,7 +11,7 @@
          http://www.springframework.org/schema/aop
          http://www.springframework.org/schema/aop/spring-aop.xsd
          ">
-	<context:component-scan base-package="org.free.commons.generator"></context:component-scan>
+	<context:component-scan base-package="org.stathry.generator"></context:component-scan>
 
 	<!-- 业务变量配置文件，支持@Value注解 -->
 	<bean

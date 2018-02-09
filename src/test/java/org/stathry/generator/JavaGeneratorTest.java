@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -86,18 +87,23 @@ public class JavaGeneratorTest {
         }
         System.out.println(list);
     }
-    @Test
-    public void testGenerateByTemplateFromDB2() throws IOException, TemplateException, SQLException {
-        Connection conn = dataSource.getConnection();
-        BeanInfo bean = DBUtils.getTableInfo(conn, jdbcTemplate, schema, "zixin_report_doc");
-            javaGenerator.generateByTemplate(bean);
-        System.out.println(bean);
-    }
+
+	@Test
+	public void testGenerateJPAModelByTemplateFromDB() throws IOException, TemplateException, SQLException {
+		Connection conn = dataSource.getConnection();
+		List<String> tables = Arrays.asList("routing_rule", "routing_option");
+		for(String t : tables) {
+			BeanInfo bean = DBUtils.getTableInfo(conn, jdbcTemplate, schema, t);
+			bean.setTable(t);
+			javaGenerator.generateByTemplate(bean);
+			System.out.println(bean);
+		}
+	}
     
     @Test
     public void testPrintTableInfo() throws IOException, TemplateException, SQLException {
         Connection conn = dataSource.getConnection();
-        DBUtils.printTableInfo(conn, jdbcTemplate, schema, "wangxin_sync_doc");
+        DBUtils.printTableInfo(conn, jdbcTemplate, schema, "routing_option");
     }
     
 }

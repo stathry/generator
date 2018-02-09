@@ -53,6 +53,7 @@ public class JavaGenerator {
         
         lock.lock(); 
         try {
+        	templateConfig.setTable(beanInfo.getTable());
             templateConfig.setFields(beanInfo.getFields());
             templateConfig.setClzz(beanInfo.getClzz());
             templateConfig.setDesc(beanInfo.getDesc());
