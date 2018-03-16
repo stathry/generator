@@ -91,7 +91,7 @@ public class JavaGeneratorTest {
 	@Test
 	public void testGenerateJPAModelByTemplateFromDB() throws IOException, TemplateException, SQLException {
 		Connection conn = dataSource.getConnection();
-		List<String> tables = Arrays.asList("routing_rule", "routing_option");
+		List<String> tables = Arrays.asList("bank_map");
 		for(String t : tables) {
 			BeanInfo bean = DBUtils.getTableInfo(conn, jdbcTemplate, schema, t);
 			bean.setTable(t);
