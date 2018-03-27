@@ -30,7 +30,7 @@ public class OrderGenerator implements InitializingBean {
     private int maxIncr;
     private BoundAtomicInteger seq;
     
-    private Snowflake snow = new Snowflake(2);
+    private Snowflake snow = new Snowflake(1, 1);
     
     /**
      * 生成订单号：date + machineCode + seq + userId
@@ -55,7 +55,7 @@ public class OrderGenerator implements InitializingBean {
     }
     
     public String generateOrderBySnow() {
-        return String.valueOf(snow.next());
+        return String.valueOf(snow.nextId());
     }
     
     @Override

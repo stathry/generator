@@ -1,5 +1,6 @@
 package org.stathry.generator.util;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,6 +126,13 @@ public class ExcelUtils {
             LOGGER.warn("invalid excel path.");
             return Collections.emptyList();
         }
+        File file = new File(path);
+        if (!file.exists()) {
+            file = new File(ExcelUtils.class.getResource(path).getFile());
+        }
+        if(!file.exists()) {
+            throw new IllegalArgumentException("not found file "+ path);
+        }
         String type = FilenameUtils.getExtension(path);
         if (!ExcelTypeEnums.xls.name().equalsIgnoreCase(type) 
                 && !ExcelTypeEnums.xlsx.name().equalsIgnoreCase(type)) {
@@ -135,7 +143,7 @@ public class ExcelUtils {
         InputStream in = null;
         Workbook book = null;
         try {
-            in = new FileInputStream(path);
+            in = new FileInputStream(file);
             book = WorkbookFactory.create(in);
             Iterator<Sheet> it = book.sheetIterator();
             Sheet sheet = null;

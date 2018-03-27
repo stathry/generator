@@ -18,9 +18,9 @@
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<array>
-				<value>classpath*:jdbc.properties</value>
-				<value>classpath*:template.properties</value>
-				<value>classpath*:config.properties</value>
+				<value>classpath*:conf/jdbc.properties</value>
+				<value>classpath*:conf/config.properties</value>
+				<value>classpath*:conf/template.properties</value>
 			</array>
 		</property>
 	</bean>

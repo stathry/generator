@@ -64,7 +64,7 @@ public class JavaGeneratorTest {
                     BeanInfo beanInfo = new BeanInfo();
                     beanInfo.setClzz("Bean" + j);
                     beanInfo.setDesc("desc" + j);
-                    List<FieldInfo> fields = ExcelUtils.readToBean("D:\\doc\\temp.xlsx");
+                    List<FieldInfo> fields = ExcelUtils.readToBean("/template/temp.xlsx");
                     beanInfo.setFields(fields);
                     try {
                         javaGenerator.generateByTemplate(beanInfo);
