@@ -11,8 +11,8 @@
 		</commentGenerator>
 		<!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://127.0.0.1:3306/routing" userId="root"
-			password="root">
+			connectionURL="jdbc:mysql://172.16.15.201:3306/log_monitor" userId="dev_pcnn"
+			password="wsRUbviWCHTniGuu">
 		</jdbcConnection>
 <!-- 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
 			connectionURL="jdbc:mysql://10.25.250.78:3306/ss_skynet" userId="root"
@@ -31,7 +31,7 @@
 		</javaTypeResolver>
 
 		<!-- targetProject:生成PO类的位置 -->
-		<javaModelGenerator targetPackage="org.stathry.routing.po"
+		<javaModelGenerator targetPackage="com.showshine.monitor.model"
 			targetProject=".\src">
 			<!-- enableSubPackages:是否让schema作为包的后缀 -->
 			<property name="enableSubPackages" value="false" />
@@ -45,16 +45,14 @@
 			<property name="enableSubPackages" value="false" />
 		</sqlMapGenerator>
 		<!-- targetPackage：mapper接口生成的位置 -->
-<!-- 		<javaClientGenerator type="XMLMAPPER"
-			targetPackage="com.deppon.grms.dao" 
+        <javaClientGenerator type="XMLMAPPER"
+			targetPackage="com.showshine.monitor.dao"
 			targetProject=".\src">
-			enableSubPackages:是否让schema作为包的后缀
 			<property name="enableSubPackages" value="false" />
-		</javaClientGenerator> -->
+		</javaClientGenerator>
 		<!-- 指定数据库表 -->
-		<table tableName="service_rout_option"></table>
-		<table tableName="service_rout_rule"></table>
-		
+		<table tableName="log_alert_rule"></table>
+
 		<!-- 有些表的字段需要指定java类型
 		 <table schema="" tableName="">
 			<columnOverride column="" javaType="" />

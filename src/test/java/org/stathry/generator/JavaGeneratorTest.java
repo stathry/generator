@@ -52,7 +52,7 @@ public class JavaGeneratorTest {
     private String schema;
     
     @Test
-    public void testGenerateByTemplateFromExcel() throws IOException, TemplateException, InterruptedException {
+    public void testGenerateByTemplateFromExcel() throws Exception {
         ExecutorService service = Executors.newCachedThreadPool();
         CountDownLatch latch = new CountDownLatch(1000);
         for(int i = 0; i < 1000; i++) {
@@ -68,7 +68,7 @@ public class JavaGeneratorTest {
                     beanInfo.setFields(fields);
                     try {
                         javaGenerator.generateByTemplate(beanInfo);
-                    } catch (IOException | TemplateException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     latch.countDown();
@@ -79,7 +79,7 @@ public class JavaGeneratorTest {
     }
     
     @Test
-    public void testGenerateByTemplateFromDB() throws IOException, TemplateException, SQLException {
+    public void testGenerateByTemplateFromDB() throws Exception {
         Connection conn = dataSource.getConnection();
         List<BeanInfo> list = DBUtils.getTableInfoList(conn, jdbcTemplate, schema);
         for (BeanInfo beanInfo : list) {
@@ -89,19 +89,31 @@ public class JavaGeneratorTest {
     }
 
 	@Test
-	public void testGenerateJPAModelByTemplateFromDB() throws IOException, TemplateException, SQLException {
+	public void testGenerateJPAModelByTemplateFromDB() throws Exception {
 		Connection conn = dataSource.getConnection();
-		List<String> tables = Arrays.asList("bank_map");
+		List<String> tables = Arrays.asList("log_his_201806");
 		for(String t : tables) {
 			BeanInfo bean = DBUtils.getTableInfo(conn, jdbcTemplate, schema, t);
 			bean.setTable(t);
-			javaGenerator.generateByTemplate(bean);
+			javaGenerator.generateByTemplate(bean, true);
+			System.out.println(bean);
+		}
+	}
+
+	@Test
+	public void testGenerateModelByTemplateFromDB() throws Exception {
+		Connection conn = dataSource.getConnection();
+		List<String> tables = Arrays.asList("log_his_201807");
+		for(String t : tables) {
+			BeanInfo bean = DBUtils.getTableInfo(conn, jdbcTemplate, schema, t);
+			bean.setTable(t);
+			javaGenerator.generateByTemplate(bean, false);
 			System.out.println(bean);
 		}
 	}
     
     @Test
-    public void testPrintTableInfo() throws IOException, TemplateException, SQLException {
+    public void testPrintTableInfo() throws Exception {
         Connection conn = dataSource.getConnection();
         DBUtils.printTableInfo(conn, jdbcTemplate, schema, "routing_option");
     }

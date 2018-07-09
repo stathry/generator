@@ -18,8 +18,11 @@ public class JavaTemplateConfig {
     @Value("${template.dir}")
     private String templateDir;
 
-    @Value("${template.templateName}")
-    private String templateName;
+    @Value("${template.jpaTemplateName}")
+    private String jpaTemplateName;
+
+    @Value("${template.mybatisTemplateName}")
+    private String mybatisTemplateName;
 
     @Value("${template.targetPath}")
     private String targetPath;
@@ -43,6 +46,24 @@ public class JavaTemplateConfig {
     
     private List<FieldInfo> fields;
 
+    @Override
+    public String toString() {
+        return "JavaTemplateConfig{" +
+                "templateDir='" + templateDir + '\'' +
+                ", jpaTemplateName='" + jpaTemplateName + '\'' +
+                ", mybatisTemplateName='" + mybatisTemplateName + '\'' +
+                ", targetPath='" + targetPath + '\'' +
+                ", copyright='" + copyright + '\'' +
+                ", author='" + author + '\'' +
+                ", pkg='" + pkg + '\'' +
+                ", date='" + date + '\'' +
+                ", clzz='" + clzz + '\'' +
+                ", table='" + table + '\'' +
+                ", desc='" + desc + '\'' +
+                ", fields=" + fields +
+                '}';
+    }
+
     public String getTemplateDir() {
         return templateDir;
     }
@@ -51,12 +72,20 @@ public class JavaTemplateConfig {
         this.templateDir = templateDir;
     }
 
-    public String getTemplateName() {
-        return templateName;
+    public String getJpaTemplateName() {
+        return jpaTemplateName;
     }
 
-    public void setTemplateName(String templateName) {
-        this.templateName = templateName;
+    public void setJpaTemplateName(String jpaTemplateName) {
+        this.jpaTemplateName = jpaTemplateName;
+    }
+
+    public String getMybatisTemplateName() {
+        return mybatisTemplateName;
+    }
+
+    public void setMybatisTemplateName(String mybatisTemplateName) {
+        this.mybatisTemplateName = mybatisTemplateName;
     }
 
     public String getTargetPath() {

@@ -45,26 +45,31 @@ public class JavaGenerator {
     @Autowired 
     private JavaTemplateConfig templateConfig;
     
-    public void generateByTemplate(BeanInfo beanInfo) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
+    public void generateByTemplate(BeanInfo beanInfo) throws Exception {
+        generateByTemplate(beanInfo, false);
+    }
+    public void generateByTemplate(BeanInfo beanInfo, boolean hasColumnAnnotation) throws Exception {
+        JavaTemplateConfig templateConfig1 = templateConfig;
         Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
-        cfg.setDirectoryForTemplateLoading(new ClassPathResource(templateConfig.getTemplateDir()).getFile());
+        cfg.setDirectoryForTemplateLoading(new ClassPathResource(templateConfig1.getTemplateDir()).getFile());
         cfg.setObjectWrapper(new DefaultObjectWrapper(Configuration.VERSION_2_3_23));
-        Template template = cfg.getTemplate(templateConfig.getTemplateName());
+        String templateName = hasColumnAnnotation ? templateConfig1.getJpaTemplateName() : templateConfig1.getMybatisTemplateName();
+        Template template = cfg.getTemplate(templateName);
         
         lock.lock(); 
         try {
-        	templateConfig.setTable(beanInfo.getTable());
-            templateConfig.setFields(beanInfo.getFields());
-            templateConfig.setClzz(beanInfo.getClzz());
-            templateConfig.setDesc(beanInfo.getDesc());
-            File file = new File(templateConfig.getTargetPath() + beanInfo.getClzz() + ".java");
+        	templateConfig1.setTable(beanInfo.getTable());
+            templateConfig1.setFields(beanInfo.getFields());
+            templateConfig1.setClzz(beanInfo.getClzz());
+            templateConfig1.setDesc(beanInfo.getDesc());
+            File file = new File(templateConfig1.getTargetPath() + beanInfo.getClzz() + ".java");
             FileUtils.createFile(file);
             System.out.println();
-            System.out.println(file.getPath());
+            LOGGER.info("java file has been generated, path is \"{}\".", file.getAbsolutePath());
             System.out.println();
             Writer out = new FileWriter(file);
 //      Writer out = new OutputStreamWriter(System.out);  
-            template.process(templateConfig, out);  
+            template.process(templateConfig1, out);
             out.flush();  
         } catch(Exception e) {
             LOGGER.error("generateJavaBean error," + e.getMessage(), e);
