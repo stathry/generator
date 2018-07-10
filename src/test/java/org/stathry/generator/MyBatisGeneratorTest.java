@@ -55,7 +55,21 @@ public class MyBatisGeneratorTest {
     public void testSmartGenerator() throws Exception {
         Connection conn = dataSource.getConnection();
         List<BeanInfo> beans = DBUtils.getTableInfoList(conn, jdbcTemplate, schema);
-        LOGGER.info("there {} tables in database {}.", beans.size(), schema);
+        LOGGER.info("found {} tables in database {}.", beans.size(), schema);
+        for (BeanInfo bean : beans) {
+            mapperGenerator.generateMapperByTemplate(bean);
+            System.out.println(bean);
+            javaGenerator.generateByTemplate(bean, false);
+        }
+    }
+
+    @Test
+    public void testSmartGenerateByTables() throws Exception {
+        Connection conn = dataSource.getConnection();
+        // 指定表名
+        List<String> tables = Arrays.asList("log_his_201807", "sys_conf");
+        List<BeanInfo> beans = DBUtils.getTableInfoList(conn, jdbcTemplate, schema, tables);
+        LOGGER.info("found {} tables in database {}.", beans.size(), schema);
         for (BeanInfo bean : beans) {
             mapperGenerator.generateMapperByTemplate(bean);
             System.out.println(bean);
