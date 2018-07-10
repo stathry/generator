@@ -18,7 +18,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.stathry.generator.enums.DBDataTypeEnums;
 import org.stathry.generator.model.BeanInfo;
 import org.stathry.generator.model.FieldInfo;
-import org.stathry.generator.model.ORMTemplateContext;
 
 /**
  * 数据库访问工具类:获取表结构信息等
@@ -39,7 +38,7 @@ public class DBUtils {
     }
     public static List<BeanInfo> getTableInfoList(Connection conn, JdbcTemplate template, String schema, List<String> tableNames) throws SQLException {
         DatabaseMetaData db = conn.getMetaData();
-        LOGGER.info("database version {}{}.", db.getDatabaseProductName(), db.getDatabaseProductVersion());
+        LOGGER.info("database version {} {}.", db.getDatabaseProductName(), db.getDatabaseProductVersion());
 
         boolean isAll = tableNames == null || tableNames.isEmpty();
         List<Map<String, Object>> tables;
@@ -58,60 +57,79 @@ public class DBUtils {
         List<FieldInfo> fields;
         List<FieldInfo> iFields;
         FieldInfo field;
-        String type;
-        int index;
-        boolean foundId = false;
         String curTable;
         for(Map<String, Object> t : tables) {
-            curTable = (String)t.get("table_name");
-            bean = new BeanInfo();
+            bean = initBeanInfoFromTable(t);
             beans.add(bean);
-            bean.setTable(curTable);
-            bean.setClzz(StringUtils.capitalize(columnToField(curTable)));
-            if(t.get("table_comment") != null) {
-                bean.setDesc(String.valueOf(t.get("table_comment")).replaceAll("表", ""));
-            }
-
-            columns = template.queryForList(
-                    "select column_name,column_type,column_comment from INFORMATION_SCHEMA.Columns where table_name=?",
-                    curTable);
-            if(columns == null || columns.isEmpty()) {
+            curTable = bean.getTable();
+            if((columns = queryColumns(template, curTable)) == null || columns.isEmpty()) {
                 continue;
             }
 
-            fields = new ArrayList<FieldInfo>(columns.size());
+            fields = new ArrayList<>(columns.size());
             bean.setFields(fields);
             iFields = new ArrayList<>(4);
             bean.setInsertFields(iFields);
-            for(Map<String, Object> c : columns) {
-                field = new FieldInfo();
-                field.setColumn(String.valueOf(c.get("column_name")));
-                field.setName(columnToField(field.getColumn()));
-                type = String.valueOf(c.get("column_type"));
-                index = type.indexOf('(');
-                type = index != -1 ? type.substring(0, type.indexOf('(')) : type;
-                field.setType(columnToField(DBDataTypeEnums.getTypeByName(type)));
-                field.setJdbcType(type.toUpperCase());
-                field.setComment(columnToField(String.valueOf(c.get("column_comment"))));
 
-                if(field.getColumn().equalsIgnoreCase("id")) {
-                    foundId = true;
-                    bean.setIdType(field.getType());
-                    bean.setIdJdbcType(field.getJdbcType());
-                    fields.add(0, field);
-                } else {
-                    fields.add(field);
-                }
-                if(!EX_COLS.contains(field.getColumn())) {
-                    iFields.add(field);
-                }
-            }
-            if(!foundId) {
-                bean.setIdType("long");
-                bean.setIdJdbcType("BIGINT");
+            for(Map<String, Object> c : columns) {
+                field = initFieldInfoFromColumn(c);
+                fillFields(fields, iFields, field, bean);
             }
         }
         return beans;
+    }
+
+    private static void fillFields(List<FieldInfo> fields, List<FieldInfo> iFields, FieldInfo field, BeanInfo bean) {
+        if(field.getColumn().equalsIgnoreCase("id")) {
+            bean.setIdType(field.getType());
+            bean.setIdJdbcType(field.getJdbcType());
+            fields.add(0, field);
+        } else {
+            fields.add(field);
+        }
+        if(!EX_COLS.contains(field.getColumn())) {
+            iFields.add(field);
+        }
+    }
+
+    private static FieldInfo initFieldInfoFromColumn(Map<String, Object> c) {
+        FieldInfo field;
+        String type;
+        int index;
+        field = new FieldInfo();
+        field.setColumn(String.valueOf(c.get("column_name")));
+        field.setName(columnToField(field.getColumn()));
+        type = String.valueOf(c.get("column_type"));
+        index = type.indexOf('(');
+        type = index != -1 ? type.substring(0, type.indexOf('(')) : type;
+        field.setType(columnToField(DBDataTypeEnums.getTypeByName(type)));
+        field.setJdbcType(type.toUpperCase());
+        field.setComment(columnToField(String.valueOf(c.get("column_comment"))));
+        return field;
+    }
+
+    private static List<Map<String,Object>> queryColumns(JdbcTemplate template, String curTable) {
+        return template.queryForList("select column_name,column_type,column_comment from INFORMATION_SCHEMA.Columns where table_name=?", curTable);
+    }
+
+    private static BeanInfo initBeanInfoFromTable(Map<String,Object> t) {
+        BeanInfo bean = new BeanInfo();
+        String curTable = (String)t.get("table_name");
+        bean.setTable(curTable);
+        bean.setClzz(StringUtils.capitalize(columnToField(curTable)));
+        bean.setIdType("long");
+        bean.setIdJdbcType("BIGINT");
+        String comment = (String) t.get("table_comment");
+        int n;
+        if(comment != null && comment.length() > 0) {
+            if((n = comment.indexOf("表")) != -1 && n > 1) {
+                comment = comment.substring(0, n - 1);
+            }
+        } else {
+            comment = "";
+        }
+        bean.setDesc(comment);
+        return bean;
     }
 
     private static String concatInTables(List<String> tableNames) {
