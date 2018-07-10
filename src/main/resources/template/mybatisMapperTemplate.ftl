@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ${copyright} -->
+<!-- ${author} on ${generateTime} -->
 <mapper namespace="${pkg}.dao.${clzz}DAO">
-    <resultMap id="BaseResultMap" type="${clzz}">
+    <resultMap id="BaseResultMap" type="${pkg}.model.${clzz}">
      <#list fields as field>
         <#if field.name!='id'><result column="${field.column}" jdbcType="${field.jdbcType}" property="${field.name}" /><#else><id column="id" jdbcType="${field.jdbcType}" property="id"/></#if>
     </#list>

@@ -34,48 +34,80 @@ public class DBUtils {
     private DBUtils() {}
     
     public static List<BeanInfo> getTableInfoList(Connection conn, JdbcTemplate template, String schema) throws SQLException {
+        return getTableInfoList(conn, template, schema, null);
+    }
+    private static List<BeanInfo> getTableInfoList(Connection conn, JdbcTemplate template, String schema, String tableName) throws SQLException {
         DatabaseMetaData db = conn.getMetaData();
         LOGGER.info("database version {}{}.", db.getDatabaseProductName(), db.getDatabaseProductVersion());
-        List<Map<String, Object>> tables = template.queryForList(
-                "select table_name, table_comment from information_schema.tables where table_schema=?", schema);
+
+        boolean isAll = StringUtils.isBlank(tableName);
+        List<Map<String, Object>> tables;
+        if(isAll) {
+            tables= template.queryForList("select table_name, table_comment from information_schema.tables where table_schema=?", schema);
+        } else {
+            tables= template.queryForList("select table_name, table_comment from information_schema.tables where table_schema=? and table_name = ?", schema, tableName);
+        }
+
         if(tables == null || tables.isEmpty()) {
-            return Collections.emptyList();
+            return null;
         }
         List<BeanInfo> beans = new ArrayList<BeanInfo>(tables.size());
         BeanInfo bean;
-        String tableName;
         List<Map<String, Object>> columns;
         List<FieldInfo> fields;
+        List<FieldInfo> iFields;
         FieldInfo field;
         String type;
         int index;
+        boolean foundId = false;
+        String curTable;
         for(Map<String, Object> t : tables) {
+            curTable = (String)t.get("table_name");
             bean = new BeanInfo();
             beans.add(bean);
-            tableName = String.valueOf(t.get("table_name"));
-            bean.setClzz(StringUtils.capitalize(columnToField(tableName)));
+            bean.setTable(curTable);
+            bean.setClzz(StringUtils.capitalize(columnToField(curTable)));
             if(t.get("table_comment") != null) {
                 bean.setDesc(String.valueOf(t.get("table_comment")).replaceAll("表", ""));
             }
-            
+
             columns = template.queryForList(
                     "select column_name,column_type,column_comment from INFORMATION_SCHEMA.Columns where table_name=?",
-                    tableName);
+                    curTable);
             if(columns == null || columns.isEmpty()) {
                 continue;
             }
-            
-            fields = new ArrayList<>(columns.size());
+
+            fields = new ArrayList<FieldInfo>(columns.size());
             bean.setFields(fields);
+            iFields = new ArrayList<>(4);
+            bean.setInsertFields(iFields);
             for(Map<String, Object> c : columns) {
                 field = new FieldInfo();
-                field.setName(columnToField(String.valueOf(c.get("column_name"))));
+                field.setColumn(String.valueOf(c.get("column_name")));
+                field.setName(columnToField(field.getColumn()));
                 type = String.valueOf(c.get("column_type"));
                 index = type.indexOf('(');
                 type = index != -1 ? type.substring(0, type.indexOf('(')) : type;
                 field.setType(columnToField(DBDataTypeEnums.getTypeByName(type)));
+                field.setJdbcType(type.toUpperCase());
                 field.setComment(columnToField(String.valueOf(c.get("column_comment"))));
-                fields.add(field);
+
+                if(field.getColumn().equalsIgnoreCase("id")) {
+                    foundId = true;
+                    bean.setIdType(field.getType());
+                    bean.setIdJdbcType(field.getJdbcType());
+                    fields.add(0, field);
+                } else {
+                    fields.add(field);
+                }
+                if(!EX_COLS.contains(field.getColumn())) {
+                    iFields.add(field);
+                }
+            }
+            if(!foundId) {
+                bean.setIdType("long");
+                bean.setIdJdbcType("BIGINT");
             }
         }
         return beans;

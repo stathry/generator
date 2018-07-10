@@ -6,6 +6,7 @@ import freemarker.template.Template;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.stathry.generator.model.BeanInfo;
@@ -30,6 +31,8 @@ public class JavaGenerator {
     
     @Autowired 
     private ORMTemplateContext templateContext;
+    @Value("${jdbc.schema}")
+    private String schema;
     
     public void generateByTemplate(BeanInfo beanInfo) throws Exception {
         generateByTemplate(beanInfo, false);
@@ -49,7 +52,7 @@ public class JavaGenerator {
             tc.setFields(beanInfo.getFields());
             tc.setClzz(beanInfo.getClzz());
             tc.setDesc(beanInfo.getDesc());
-            File file = new File(tc.getTargetPath() + "model/" + beanInfo.getClzz() + ".java");
+            File file = new File(tc.getTargetPath()  + schema + "/model/" + beanInfo.getClzz() + ".java");
             FileUtils.createFile(file);
             LOGGER.info("java file has been generated, path is \"{}\".", file.getAbsolutePath());
             out = new FileWriter(file);

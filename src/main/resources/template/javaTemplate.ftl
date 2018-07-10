@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * ${desc}
  * @author ${author}
- * @date ${date}
+ * @date ${generateTime}
  */  
  
 public class ${clzz} implements Serializable {

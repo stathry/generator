@@ -36,8 +36,6 @@ public class ORMTemplateContext {
     @Value("${orm.template.pkg}")
     private String pkg;
     
-    private String date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-
     private String clzz;
     
     private String table;
@@ -45,6 +43,7 @@ public class ORMTemplateContext {
     private String desc;
     private String idType;
     private String idJdbcType;
+    private String generateTime;
 
     private List<FieldInfo> fields;
     private List<FieldInfo> insertFields;
@@ -59,13 +58,14 @@ public class ORMTemplateContext {
                 ", copyright='" + copyright + '\'' +
                 ", author='" + author + '\'' +
                 ", pkg='" + pkg + '\'' +
-                ", date='" + date + '\'' +
                 ", clzz='" + clzz + '\'' +
                 ", table='" + table + '\'' +
                 ", desc='" + desc + '\'' +
                 ", idType='" + idType + '\'' +
                 ", idJdbcType='" + idJdbcType + '\'' +
+                ", generateTime='" + generateTime + '\'' +
                 ", fields=" + fields +
+                ", insertFields=" + insertFields +
                 '}';
     }
 
@@ -125,12 +125,12 @@ public class ORMTemplateContext {
         this.pkg = pkg;
     }
 
-    public String getDate() {
-        return date;
+    public String getGenerateTime() {
+        return generateTime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setGenerateTime(String generateTime) {
+        this.generateTime = generateTime;
     }
 
     public String getClzz() {

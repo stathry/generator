@@ -52,6 +52,18 @@ public class MyBatisGeneratorTest {
     private String schema;
 
     @Test
+    public void testSmartGenerator() throws Exception {
+        Connection conn = dataSource.getConnection();
+        List<BeanInfo> beans = DBUtils.getTableInfoList(conn, jdbcTemplate, schema);
+        LOGGER.info("there {} tables in database {}.", beans.size(), schema);
+        for (BeanInfo bean : beans) {
+            mapperGenerator.generateMapperByTemplate(bean);
+            System.out.println(bean);
+            javaGenerator.generateByTemplate(bean, false);
+        }
+    }
+
+    @Test
     public void testGenerateMapperByTemplate() throws Exception {
         Connection conn = dataSource.getConnection();
         List<String> tables = Arrays.asList("log_his_201807");
