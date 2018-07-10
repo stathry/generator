@@ -17,6 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.stathry.generator.enums.DBDataTypeEnums;
 import org.stathry.generator.model.BeanInfo;
 import org.stathry.generator.model.FieldInfo;
+import org.stathry.generator.model.ORMTemplateContext;
 
 /**
  * TODO
@@ -27,6 +28,8 @@ public class DBUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(DBUtils.class);
     
     private static final boolean COLLUMN_CONVERT = true;
+
+    private static final Set<String> EX_COLS = ConfigManager.getObject("template", "orm.insert.exclude.columns", Set.class);
     
     private DBUtils() {}
     
@@ -62,7 +65,7 @@ public class DBUtils {
                 continue;
             }
             
-            fields = new ArrayList<FieldInfo>(columns.size());
+            fields = new ArrayList<>(columns.size());
             bean.setFields(fields);
             for(Map<String, Object> c : columns) {
                 field = new FieldInfo();
@@ -90,9 +93,11 @@ public class DBUtils {
         BeanInfo bean;
         List<Map<String, Object>> columns;
         List<FieldInfo> fields;
+        List<FieldInfo> iFields;
         FieldInfo field;
         String type;
         int index;
+        boolean foundId = false;
         for(Map<String, Object> t : tables) {
             bean = new BeanInfo();
             beans.add(bean);
@@ -110,21 +115,39 @@ public class DBUtils {
             
             fields = new ArrayList<FieldInfo>(columns.size());
             bean.setFields(fields);
+            iFields = new ArrayList<>(4);
+            bean.setInsertFields(iFields);
             for(Map<String, Object> c : columns) {
                 field = new FieldInfo();
-                field.setCollumn(String.valueOf(c.get("column_name")));
-                field.setName(columnToField(field.getCollumn()));
+                field.setColumn(String.valueOf(c.get("column_name")));
+                field.setName(columnToField(field.getColumn()));
                 type = String.valueOf(c.get("column_type"));
                 index = type.indexOf('(');
                 type = index != -1 ? type.substring(0, type.indexOf('(')) : type;
                 field.setType(columnToField(DBDataTypeEnums.getTypeByName(type)));
+                field.setJdbcType(type.toUpperCase());
                 field.setComment(columnToField(String.valueOf(c.get("column_comment"))));
+
+                if(field.getColumn().equalsIgnoreCase("id")) {
+                    foundId = true;
+                    bean.setIdType(field.getType());
+                    bean.setIdJdbcType(field.getJdbcType());
+                    fields.add(0, field);
+                } else {
                 fields.add(field);
+                }
+                if(!EX_COLS.contains(field.getColumn())) {
+                    iFields.add(field);
+                }
             }
+        if(!foundId) {
+            bean.setIdType("long");
+            bean.setIdJdbcType("BIGINT");
+        }
         }
         return beans.get(0);
     }
-    
+
     public static void printTableInfo(Connection conn, JdbcTemplate template, String schema, String tableName) throws SQLException {
         DatabaseMetaData db = conn.getMetaData();
         LOGGER.info("database version {}{}.", db.getDatabaseProductName(), db.getDatabaseProductVersion());

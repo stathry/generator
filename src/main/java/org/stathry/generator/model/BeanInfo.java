@@ -11,18 +11,32 @@ public class BeanInfo {
 
 	private String clzz;
 
+	private String className;
+
 	private String table;
 
 	private String desc;
 
 	private List<FieldInfo> fields;
+	private List<FieldInfo> insertFields;
 
-	@Override
-	public String toString() {
-		return "BeanInfo [clzz=" + clzz + ", desc=" + desc + "]";
-	}
+    private String idType;
+    private String idJdbcType;
 
-	public String getTable() {
+    @Override
+    public String toString() {
+        return "BeanInfo{" +
+                "clzz='" + clzz + '\'' +
+                ", className='" + className + '\'' +
+                ", table='" + table + '\'' +
+                ", desc='" + desc + '\'' +
+                ", fields=" + fields +
+                ", idType='" + idType + '\'' +
+                ", idJdbcType='" + idJdbcType + '\'' +
+                '}';
+    }
+
+    public String getTable() {
 		return table;
 	}
 
@@ -54,4 +68,35 @@ public class BeanInfo {
 		this.desc = desc;
 	}
 
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public String getIdType() {
+        return idType;
+    }
+
+    public void setIdType(String idType) {
+        this.idType = idType;
+    }
+
+    public String getIdJdbcType() {
+        return idJdbcType;
+    }
+
+    public void setIdJdbcType(String idJdbcType) {
+        this.idJdbcType = idJdbcType;
+    }
+
+    public List<FieldInfo> getInsertFields() {
+        return insertFields;
+    }
+
+    public void setInsertFields(List<FieldInfo> insertFields) {
+        this.insertFields = insertFields;
+    }
 }

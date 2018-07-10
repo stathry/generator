@@ -27,7 +27,7 @@ public class ${clzz} implements Serializable {
   
   <#list fields as field>  
     /** ${field.comment} */
-    @Column(name="${field.collumn}")
+    @Column(name="${field.column}")
     private ${field.type} ${field.name};
       
   </#list>  

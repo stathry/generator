@@ -9,9 +9,11 @@ public class FieldInfo {
 
 	private String name;
 
-	private String collumn;
+	private String column;
 
 	private String type;
+
+	private String jdbcType;
 
 	private String comment;
 
@@ -21,7 +23,7 @@ public class FieldInfo {
 
 	public FieldInfo(String name, String collumn, String type, String comment) {
 		this.name = name;
-		this.collumn = collumn;
+		this.column = collumn;
 		this.type = type;
 		this.comment = comment;
 	}
@@ -35,12 +37,12 @@ public class FieldInfo {
 		return name;
 	}
 
-	public String getCollumn() {
-		return collumn;
+	public String getColumn() {
+		return column;
 	}
 
-	public void setCollumn(String collumn) {
-		this.collumn = collumn;
+	public void setColumn(String column) {
+		this.column = column;
 	}
 
 	public void setName(String name) {
@@ -63,4 +65,11 @@ public class FieldInfo {
 		this.comment = comment;
 	}
 
+    public String getJdbcType() {
+        return jdbcType;
+    }
+
+    public void setJdbcType(String jdbcType) {
+        this.jdbcType = jdbcType;
+    }
 }

@@ -2,25 +2,25 @@ package org.stathry.generator.enums;
 
 public enum DBDataTypeEnums {
 
-    VARCHAR("String"),
-    CHAR("String"),
-    BLOB("byte[]"),
-    TEXT("String"),
-    INTEGER("Long"),
+    BIT("Boolean"),
+    BOOLEAN("Boolean"),
+    INTEGER("Integer"),
     INT("Integer"),
     TINYINT("Integer"),
     SMALLINT("Integer"),
     MEDIUMINT("Integer"),
-    BIT("Boolean"),
     BIGINT("Long"),
+    ID("Long"),
+    DECIMAL("Double"),
     FLOAT("Float"),
     DOUBLE("Double"),
-    DECIMAL("Double"),
-    BOOLEAN("Boolean"),
-    ID("Long"),
+    BLOB("byte[]"),
+    VARCHAR("String"),
+    CHAR("String"),
+    TEXT("String"),
+    TIMESTAMP("Date"),
     DATE("Date"),
     DATETIME("Date"),
-    TIMESTAMP("Date"),
     YEAR("Date"),
     ;
     
@@ -43,7 +43,22 @@ public enum DBDataTypeEnums {
                 return e.type();
             }
         }
-        return name.trim();
+        return name;
+    }
+
+    public static String getNameByType(String type) {
+        if(type == null || type.length() == 0) {
+            return type;
+        }
+        String t = type.trim().toLowerCase();
+        String et;
+        for(DBDataTypeEnums e : values()) {
+            et = e.type().toLowerCase();
+            if(et.equals(t) || et.startsWith(t)) {
+                return e.name();
+            }
+        }
+        return type;
     }
     
 }
