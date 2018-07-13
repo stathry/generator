@@ -12,11 +12,9 @@ import java.util.Date;
  * @date ${generateTime}
  */  
  
-public class ${clzz} implements Serializable {
+public class ${clzz} {
 
-	private static final long serialVersionUID = 1L;
-  
-  <#list fields as field>  
+  <#list fields as field>
     /** ${field.comment} */
     private ${field.type} ${field.name};
       
@@ -35,10 +33,7 @@ public class ${clzz} implements Serializable {
 
     @Override
     public String toString() {
-        return "${clzz}[" +
-            <#list fields as field>
-                <#if field_index!=0> + ",${field.name} = " + ${field.name}<#else>"${field.name} = " + ${field.name}</#if>
-            </#list>
-        + "]";
+        return "${clzz}[" + <#list fields as field> <#if field_index!=0> + ",${field.name} = " + ${field.name}<#else>"${field.name} = " + ${field.name}</#if>
+        </#list> + "]";
     }
 }  

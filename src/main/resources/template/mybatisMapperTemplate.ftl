@@ -14,26 +14,26 @@
     </sql>
 
     <select id="queryById" parameterType="${idType}" resultMap="BaseResultMap">
-        select
+        SELECT
         <include refid="Base_Column_List" />
-        from ${table}
-        where id = <#if true>#</#if>{id, jdbcType=${idJdbcType}}
+        FROM ${table}
+        WHERE id = <#if true>#</#if>{id, jdbcType=${idJdbcType}}
     </select>
 
     <delete id="deleteById" parameterType="${idType}">
-        delete from ${table}
-        where id = <#if true>#</#if>{id, jdbcType=${idJdbcType}}
+        DELETE FROM ${table}
+        WHERE id = <#if true>#</#if>{id, jdbcType=${idJdbcType}}
     </delete>
 
     <insert id="insert" useGeneratedKeys="true" parameterType="${clzz}" keyProperty="id" keyColumn="id">
-        insert into ${table} (<#list insertFields as field><#if field_index==0>${field.column}<#else>, ${field.column}</#if></#list>)
-        values ( <#list insertFields as field><#if field_index==0><#if true>#</#if>{${field.name}, jdbcType=${field.jdbcType}}<#else>, <#if true>#</#if>{${field.name}, jdbcType=${field.jdbcType}}</#if></#list> )
+        INSERT INTO ${table} (<#list insertFields as field><#if field_index==0>${field.column}<#else>, ${field.column}</#if></#list>)
+        VALUES ( <#list insertFields as field><#if field_index==0><#if true>#</#if>{${field.name}, jdbcType=${field.jdbcType}}<#else>, <#if true>#</#if>{${field.name}, jdbcType=${field.jdbcType}}</#if></#list> )
     </insert>
 
     <update id="updateById" parameterType="${idType}">
-        update ${table}
-        set <#list insertFields as field><#if field_index==0>${field.column} = <#if true>#</#if>{${field.name}, jdbcType=${field.jdbcType}}<#else>, ${field.column} = <#if true>#</#if>{${field.name}, jdbcType=${field.jdbcType}}</#if></#list>
-        where id = <#if true>#</#if>{id, jdbcType=${idJdbcType}}
+        UPDATE ${table}
+        SET <#list insertFields as field><#if field_index==0>${field.column} = <#if true>#</#if>{${field.name}, jdbcType=${field.jdbcType}}<#else>, ${field.column} = <#if true>#</#if>{${field.name}, jdbcType=${field.jdbcType}}</#if></#list>
+        WHERE id = <#if true>#</#if>{id, jdbcType=${idJdbcType}}
     </update>
 
 </mapper>

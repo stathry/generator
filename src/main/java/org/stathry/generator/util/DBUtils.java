@@ -97,7 +97,7 @@ public class DBUtils {
         String type;
         int index;
         field = new FieldInfo();
-        field.setColumn(String.valueOf(c.get("column_name")));
+        field.setColumn(String.valueOf(c.get("column_name")).toLowerCase());
         field.setName(columnToField(field.getColumn()));
         type = String.valueOf(c.get("column_type"));
         index = type.indexOf('(');
@@ -206,7 +206,7 @@ public class DBUtils {
         for(int i = 1; i < a.length; i++) {
             temp.append(StringUtils.capitalize(a[i]));
         }
-        return temp.toString();
+        return StringUtils.uncapitalize(temp.toString());
     }
     
 }
