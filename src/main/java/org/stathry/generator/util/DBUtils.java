@@ -29,7 +29,7 @@ public class DBUtils {
     
     private static final boolean COLLUMN_CONVERT = true;
 
-    private static final Set<String> EX_COLS = ConfigManager.getObject("template", "orm.insert.exclude.columns", Set.class);
+    private static final Set<String> EX_COLS = ConfigManager.getObjectByResource("template", "orm.insert.exclude.columns", Set.class);
     
     private DBUtils() {}
     
