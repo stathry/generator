@@ -3,7 +3,6 @@
  */
 package ${pkg};  
 
-import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -21,11 +20,9 @@ import javax.persistence.Table;
  
 @Entity
 @Table(name = "${table}")
-public class ${clzz} implements Serializable {  
+public class ${clzz} {
 
-	private static final long serialVersionUID = 1L;
-  
-  <#list fields as field>  
+  <#list fields as field>
     /** ${field.comment} */
     @Column(name="${field.column}")
     private ${field.type} ${field.name};

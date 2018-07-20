@@ -1,5 +1,7 @@
 package org.stathry.generator;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.SystemUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.generator.api.MyBatisGenerator;
@@ -14,18 +16,23 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.stathry.generator.enums.DAOType;
 import org.stathry.generator.model.BeanInfo;
+import org.stathry.generator.util.ConfigManager;
 import org.stathry.generator.util.DBUtils;
 
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * TODO
+ * Mybatis相关文件生成测试
  *
  * @author stathry
  * @date 2018/3/24
@@ -46,11 +53,33 @@ public class MyBatisGeneratorTest {
     private MapperGenerator mapperGenerator;
 
     @Autowired
+    private DAOGenerator daoGenerator;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Value("${jdbc.schema}")
     private String schema;
 
+    /** 生成所有表的model,mapper和DAO文件 */
+    @Test
+    public void testSmartGeneratorWithDAO() throws Exception {
+        copyContextUtilsFile();
+        Connection conn = dataSource.getConnection();
+        List<BeanInfo> beans = DBUtils.getTableInfoList(conn, jdbcTemplate, schema);
+        daoGenerator.generateDAOByTemplate(null, DAOType.GEN_DAO);
+        daoGenerator.generateDAOByTemplate(null, DAOType.GEN_DAO_IMPL);
+        LOGGER.info("found {} tables in database {}.", beans.size(), schema);
+        for (BeanInfo bean : beans) {
+            mapperGenerator.generateMapperByTemplate(bean);
+            System.out.println(bean);
+            javaGenerator.generateByTemplate(bean, false);
+            daoGenerator.generateDAOByTemplate(bean, DAOType.DAO);
+            daoGenerator.generateDAOByTemplate(bean, DAOType.DAO_IMPL);
+        }
+    }
+
+    /** 生成所有表的model和mapper文件 */
     @Test
     public void testSmartGenerator() throws Exception {
         Connection conn = dataSource.getConnection();
@@ -106,6 +135,7 @@ public class MyBatisGeneratorTest {
         }
     }
 
+    // 通过原生的MyBatisGenerator生成(缺点是生成的冗余信息较多,难以定制化)
     @Test
     public void testGenerator() throws Exception{
         List<String> warnings = new ArrayList<String>();
@@ -119,5 +149,17 @@ public class MyBatisGeneratorTest {
                 callback, warnings);
         myBatisGenerator.generate(null);
 
+    }
+
+    private void copyContextUtilsFile() {
+        String javaPath = SystemUtils.getUserDir() + "/src/main/java/org/stathry/generator/util/ApplicationContextUtils.java";
+        String basePath = ConfigManager.getByResource("template", "orm.template.targetPath");
+        File f = new File(basePath + schema + "/ApplicationContextUtils.java");
+        f.getParentFile().mkdirs();
+        try {
+            System.out.println(IOUtils.copy(new FileInputStream(javaPath), new FileOutputStream(f)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

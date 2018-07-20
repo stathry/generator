@@ -2,7 +2,7 @@ package org.stathry.generator.enums;
 
 public enum DataTypeEnums {
 
-    BYTE("Byte", "0"), SHORT("Short", "0"), INT("Integer", "0"),
+    BYTE("Byte", "0"), SHORT("Short", "0"), INT("Integer", "0"),INTEGER("Integer", "0"),
     LONG("Long", "0"), FLOAT("Float", "0.0f"), DOUBLE("Double", "0.0d"), 
     BOOLEAN("Boolean", "false"), CHAR("Character", "'\u0000'"), STRING("String", "null"), 
     DATE("Date", "null");

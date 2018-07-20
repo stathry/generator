@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * TODO
+ * mapper文件生成
  * Created by dongdaiming on 2018-07-10 09:54
  */
 @Component
