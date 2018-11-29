@@ -91,7 +91,7 @@ public class JavaGeneratorTest {
 	@Test
 	public void testGenerateJPAModelByTemplateFromDB() throws Exception {
 		Connection conn = dataSource.getConnection();
-		List<String> tables = Arrays.asList("log_his_201806");
+		List<String> tables = Arrays.asList("mx_bank_bill", "mx_bank_card");
 		for(String t : tables) {
 			BeanInfo bean = DBUtils.getTableInfo(conn, jdbcTemplate, schema, t);
 			bean.setTable(t);
@@ -103,7 +103,7 @@ public class JavaGeneratorTest {
 	@Test
 	public void testGenerateModelByTemplateFromDB() throws Exception {
 		Connection conn = dataSource.getConnection();
-		List<String> tables = Arrays.asList("log_his_201807");
+		List<String> tables = Arrays.asList("rong360_mobile_task_detail");
 		for(String t : tables) {
 			BeanInfo bean = DBUtils.getTableInfo(conn, jdbcTemplate, schema, t);
 			bean.setTable(t);

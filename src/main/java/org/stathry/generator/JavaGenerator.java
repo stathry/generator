@@ -3,6 +3,7 @@ package org.stathry.generator;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapper;
 import freemarker.template.Template;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.stathry.generator.util.FileUtils;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.util.Date;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -33,6 +35,8 @@ public class JavaGenerator {
     private ORMTemplateContext templateContext;
     @Value("${jdbc.schema}")
     private String schema;
+    @Value("${orm.template.timePattern}")
+    private String timePattern;
     
     public void generateByTemplate(BeanInfo beanInfo) throws Exception {
         generateByTemplate(beanInfo, false);
@@ -44,7 +48,8 @@ public class JavaGenerator {
         cfg.setObjectWrapper(new DefaultObjectWrapper(Configuration.VERSION_2_3_23));
         String templateName = hasColumnAnnotation ? tc.getJpaTemplateName() : tc.getMybatisTemplateName();
         Template template = cfg.getTemplate(templateName);
-        
+
+        tc.setGenerateTime(DateFormatUtils.format(new Date(), timePattern));
         lock.lock();
         Writer out = null;
         try {

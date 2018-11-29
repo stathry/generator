@@ -15,7 +15,7 @@ import javax.persistence.Table;
 /**
  * ${desc}
  * @author ${author}
- * @date ${date}
+ * @date ${generateTime}
  */  
  
 @Entity
